@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blockchain Ledger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #eef2f3;
+        }
+        .block {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .block-header {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Blockchain Ledger</h2>
+    <div id="blockchainContainer"></div>
+    <div class="text-center mt-4">
+        <a href="/home.html" class="btn btn-outline-secondary">Back</a>
+    </div>
+</div>
+
+<script>
+    fetch('/api/vote/blockchain')
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('blockchainContainer');
+            data.forEach((block, index) => {
+                const html = `
+                    <div class="block">
+                        <div class="block-header">Block ${index}</div>
+                        <p><strong>Data:</strong> ${block.data}</p>
+                        <p><strong>Hash:</strong> ${block.hash}</p>
+                        <p><strong>Previous Hash:</strong> ${block.previousHash}</p>
+                        <p><strong>Timestamp:</strong> ${new Date(block.timeStamp).toLocaleString()}</p>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+        });
+</script>
+
+</body>
+</html>
